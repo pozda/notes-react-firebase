@@ -5,31 +5,36 @@ import {Note} from './interfaces/Note'
 import {Loader} from './UI/components/Loader/Loader'
 import Button from './UI/components/Button/Button'
 import Icon from './UI/components/Icon/Icon'
-import AddNoteEditor from './UI/components/NoteEditor/AddNoteEditor'
-import EditNoteEditor from './UI/components/NoteEditor/EditNoteEditor'
 import styles from './UI/styles/values'
 import Layout from './UI/Layout/Layout'
 import GlobalStyles from './UI/styles/globalStyles/globalStyles'
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router'
+import routes from './routes'
+import {Link} from 'react-router-dom'
+import {AddNotePage} from './UI/pages/AddNotePage'
+import {EditNotePage} from './UI/pages/EditNotePage'
 
 interface State {
     notes: Array<Note>;
     loading: boolean;
-    isNewNote: boolean;
-    selectedNote: Note | null;
+    selectedNote: string | null;
 }
 
-class App extends React.Component<{}, State> {
+interface Props extends RouteComponentProps {
+    history: any
+}
+
+class App extends React.Component<RouteComponentProps, State> {
     state = {
         notes: [],
         loading: true,
-        isNewNote: false,
         selectedNote: null
     }
 
     componentDidMount() {
         const notesRef = firebase.firestore().collection('notes')
-        notesRef.get().then((querySnapshot: any) => {
-            querySnapshot.forEach((doc: any) => {
+        notesRef.get().then((querySnapshot: any): void => {
+            querySnapshot.forEach((doc: any): void => {
                 const data = doc.data()
                 const note = {id: doc.id, title: data.title, note: data.note}
                 this.setState({notes: [...this.state.notes, note], loading: false})
@@ -37,67 +42,52 @@ class App extends React.Component<{}, State> {
         })
     }
 
-    createNewNote = () => {
-        this.setState({isNewNote: true})
-    }
 
     saveNote = () => {
 
     }
 
-    editNote = () => {
+    updateNote = () => {
 
     }
 
-    selectSingleNote = (id: string) => {
-        const selectedNote = this.state.notes.find((note: Note) => note.id === id) || null
-        console.log(selectedNote)
-        this.setState({isNewNote: false, selectedNote: selectedNote})
+    selectSingleNote = (id: string): void => {
+        this.props.history.push(`/note/edit/${id}`)
     }
 
     render() {
+        const sidebarData = this.state.loading ?
+            <Loader /> :
+            <List
+                onClick={this.selectSingleNote}
+                notes={this.state.notes}
+            />
+
         return (
 
             <>
                 <GlobalStyles />
-                <Layout>
-                    <Layout.TopBar>
-                        <Layout.Logo>
-                            <Icon d={Icon.res.APP_LOGO} color={styles.color.brand.PRIMARY} />
-                            Notes
-                        </Layout.Logo>
-                        <Button
-                            onClick={this.createNewNote}
-                            text={'Create'}
-                            icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
-                        />
-                    </Layout.TopBar>
-                    <Layout.SectionsWrapper>
-                        <Layout.Sidebar>
-                            {
-                                this.state.loading ?
-                                    <Loader /> :
-                                    <List
-                                        onClick={this.selectSingleNote}
-                                        notes={this.state.notes}
-                                    />
-                            }
-                        </Layout.Sidebar>
-                        <Layout.Main>
-                            {
-                                true ?
-                                    <AddNoteEditor /> :
-                                    <EditNoteEditor
-                                        updateNote={this.editNote}
-                                        note={this.state.selectedNote}
-                                    />
-                            }
-                        </Layout.Main>
-                    </Layout.SectionsWrapper>
+                <Layout
+                    sidebar={sidebarData}
+                    actionButton={
+                        <Link to={routes.noteAdd.path}>
+                            <Button
+                                onClick={undefined}
+                                text={'Create'}
+                                icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
+                            />
+                        </Link>
+                    }
+                >
+                    <Switch>
+                        <Route {...routes.noteAdd} component={AddNotePage} />
+                        <Route {...routes.noteEdit} component={EditNotePage} />
+                        <Redirect to={routes.notes.path} />
+                    </Switch>
                 </Layout>
             </>
         )
     }
 }
 
-export default App
+export default withRouter(App)

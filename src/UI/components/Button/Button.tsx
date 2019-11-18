@@ -3,7 +3,7 @@ import {StyledButton} from './ButtonStyles'
 
 interface Props {
     fab?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
     icon?: React.ReactNode;
     text?: string;
 }

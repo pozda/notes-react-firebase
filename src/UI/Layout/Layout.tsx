@@ -1,21 +1,37 @@
 import React from 'react'
-import {
-    StyledLayout,
-    StyledLayoutLogo,
-    StyledLayoutMain,
-    StyledLayoutTopBar,
-    StyledLayoutSidebar,
-    StyledLayoutSectionsWrapper
-} from './LayoutStyles'
+import Icon from '../components/Icon/Icon'
+import styles from '../styles/values'
+import AppLayout from '../components/AppLayout/AppLayout'
 
-interface Props {children: React.ReactNode}
+interface Props {
+    children: React.ReactNode;
+    sidebar: React.ReactNode;
+    actionButton: React.ReactNode;
+}
 
-const Layout = ({ children }: Props) => (<StyledLayout> {children} </StyledLayout>)
-
-Layout.Logo = StyledLayoutLogo
-Layout.Main = StyledLayoutMain
-Layout.TopBar = StyledLayoutTopBar
-Layout.Sidebar = StyledLayoutSidebar
-Layout.SectionsWrapper = StyledLayoutSectionsWrapper
+class Layout extends React.Component<Props, {}> {
+    render() {
+        const {children, actionButton, sidebar} = this.props
+        return (
+            <AppLayout>
+                <AppLayout.TopBar>
+                    <AppLayout.Logo>
+                        <Icon d={Icon.res.APP_LOGO} />
+                        Notes
+                    </AppLayout.Logo>
+                    {actionButton}
+                </AppLayout.TopBar>
+                <AppLayout.SectionsWrapper>
+                    <AppLayout.Sidebar>
+                        {sidebar}
+                    </AppLayout.Sidebar>
+                    <AppLayout.Main>
+                        {children}
+                    </AppLayout.Main>
+                </AppLayout.SectionsWrapper>
+            </AppLayout>
+        )
+    }
+}
 
 export default Layout
