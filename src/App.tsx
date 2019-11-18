@@ -11,8 +11,8 @@ import GlobalStyles from './UI/styles/globalStyles/globalStyles'
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router'
 import routes from './routes'
 import {Link} from 'react-router-dom'
-import {AddNotePage} from './UI/pages/AddNotePage'
-import {EditNotePage} from './UI/pages/EditNotePage'
+import AddNotePage from './UI/pages/AddNotePage'
+import EditNotePage from './UI/pages/EditNotePage'
 
 interface State {
     notes: Array<Note>;
@@ -21,7 +21,7 @@ interface State {
 }
 
 interface Props extends RouteComponentProps {
-    history: any
+    history: any;
 }
 
 class App extends React.Component<RouteComponentProps, State> {
@@ -33,12 +33,14 @@ class App extends React.Component<RouteComponentProps, State> {
 
     componentDidMount() {
         const notesRef = firebase.firestore().collection('notes')
-        notesRef.get().then((querySnapshot: any): void => {
+        notesRef.onSnapshot((querySnapshot: any): void => {
+            const notes: Array<any> = []
             querySnapshot.forEach((doc: any): void => {
                 const data = doc.data()
                 const note = {id: doc.id, title: data.title, note: data.note}
-                this.setState({notes: [...this.state.notes, note], loading: false})
+                notes.push(note)
             })
+            this.setState({notes: [...notes], loading: false})
         })
     }
 

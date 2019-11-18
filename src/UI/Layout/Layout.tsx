@@ -1,6 +1,5 @@
 import React from 'react'
 import Icon from '../components/Icon/Icon'
-import styles from '../styles/values'
 import AppLayout from '../components/AppLayout/AppLayout'
 
 interface Props {
