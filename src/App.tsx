@@ -9,7 +9,7 @@ import AddNoteEditor from './UI/components/NoteEditor/AddNoteEditor'
 import EditNoteEditor from './UI/components/NoteEditor/EditNoteEditor'
 import styles from './UI/styles/values'
 import Layout from './UI/Layout/Layout'
-import { StyledLayoutSectionsWrapper } from './UI/Layout/LayoutStyles'
+import GlobalStyles from './UI/styles/globalStyles/globalStyles'
 
 interface State {
     notes: Array<Note>;
@@ -29,10 +29,10 @@ class App extends React.Component<{}, State> {
     componentDidMount() {
         const notesRef = firebase.firestore().collection('notes')
         notesRef.get().then((querySnapshot: any) => {
-            console.log(typeof querySnapshot)
             querySnapshot.forEach((doc: any) => {
-                console.log(typeof doc)
-                this.setState({notes: [...this.state.notes, doc]})
+                const data = doc.data()
+                const note = {id: doc.id, title: data.title, note: data.note}
+                this.setState({notes: [...this.state.notes, note], loading: false})
             })
         })
     }
@@ -58,41 +58,44 @@ class App extends React.Component<{}, State> {
     render() {
         return (
 
-            <Layout>
-                <Layout.TopBar>
-                    <Layout.Logo>
-                        <Icon d={Icon.res.APP_LOGO} width={48} height={48} color={styles.color.brand.PRIMARY} />
-                        Notes
-                    </Layout.Logo>
-                    <Button
-                        onClick={this.createNewNote}
-                        text={'Create'}
-                        icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
-                    />
-                </Layout.TopBar>
-                <Layout.SectionsWrapper>
-                    <Layout.Sidebar>
-                        {
-                            this.state.loading ?
-                                <Loader /> :
-                                <List
-                                    onClick={this.selectSingleNote}
-                                    notes={this.state.notes}
-                                />
-                        }
-                    </Layout.Sidebar>
-                    <Layout.Main>
-                        {
-                            true ?
-                                <AddNoteEditor /> :
-                                <EditNoteEditor
-                                    updateNote={this.editNote}
-                                    note={this.state.selectedNote}
-                                />
-                        }
-                    </Layout.Main>
-                </Layout.SectionsWrapper>
-            </Layout>
+            <>
+                <GlobalStyles />
+                <Layout>
+                    <Layout.TopBar>
+                        <Layout.Logo>
+                            <Icon d={Icon.res.APP_LOGO} color={styles.color.brand.PRIMARY} />
+                            Notes
+                        </Layout.Logo>
+                        <Button
+                            onClick={this.createNewNote}
+                            text={'Create'}
+                            icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
+                        />
+                    </Layout.TopBar>
+                    <Layout.SectionsWrapper>
+                        <Layout.Sidebar>
+                            {
+                                this.state.loading ?
+                                    <Loader /> :
+                                    <List
+                                        onClick={this.selectSingleNote}
+                                        notes={this.state.notes}
+                                    />
+                            }
+                        </Layout.Sidebar>
+                        <Layout.Main>
+                            {
+                                true ?
+                                    <AddNoteEditor /> :
+                                    <EditNoteEditor
+                                        updateNote={this.editNote}
+                                        note={this.state.selectedNote}
+                                    />
+                            }
+                        </Layout.Main>
+                    </Layout.SectionsWrapper>
+                </Layout>
+            </>
         )
     }
 }

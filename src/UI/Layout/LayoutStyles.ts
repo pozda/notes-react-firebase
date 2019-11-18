@@ -12,6 +12,8 @@ const StyledLayoutSectionsWrapper = styled.div`
 `
 
 const StyledLayoutTopBar = styled.div`
+    display: flex;
+    justify-content: space-between;
     height: 60px;
     width: 100%;
     border-bottom: 1px solid ${styles.color.shade.DARK};
@@ -33,7 +35,13 @@ const StyledLayoutMain = styled.div`
 
 const StyledLayoutLogo = styled.div`
     display: inline-block;
+    font-size: ${styles.typographyScale.TYPE30};
     color: ${styles.color.brand.PRIMARY};
+    text-transform: uppercase;
+    & svg {
+        margin-right: 8px;
+        }
+    }
 `
 
 export {

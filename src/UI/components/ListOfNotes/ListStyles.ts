@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import styles from '../../styles/values'
 
 const StyledList = styled.ul`
     margin: 0;
@@ -6,4 +7,25 @@ const StyledList = styled.ul`
     list-style-type: none;
 `
 
-export {StyledList}
+const StyledListItem = styled.li`
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border: 1px solid ${styles.color.shade.DARK01};
+    box-shadow: ${styles.shadow.card.PRIMARY};
+    transition: ${styles.transition.PRIMARY};
+    cursor: pointer;
+    &:hover {
+        box-shadow: ${styles.shadow.card.SECONDARY};
+    }
+`
+
+const StyledListItemTitle = styled.span`
+
+`
+
+export {
+    StyledList,
+    StyledListItem,
+    StyledListItemTitle
+}

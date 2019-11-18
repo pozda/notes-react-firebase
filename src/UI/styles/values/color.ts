@@ -6,8 +6,9 @@ export default {
 		WHITE02: 'rgba(255,255,245,0.2)',
 		WHITE06: 'rgba(255,255,245,0.6)',
 		LIGHT: '#D9DAE3', // link water
-		NEUTRAL: '#BCBDC8', // ghost		
+		NEUTRAL: '#BCBDC8', // ghost
 		DARK: '#46495D', // blue zodiac, rgb(70,73,93)
+		DARK01: 'rgba(70,73,93,0.1)', // blue zodiac
 		DARK07: 'rgba(70,73,93,0.7)', // blue zodiac
 		TRANSPARENT: 'rgba(0,0,0,0)'
 	},
