@@ -5,7 +5,7 @@ import {
     StyledLoaderWrapper
 } from './LoaderStyles'
 
-export const Loader = () =>
+export const Loader = () => (
     <StyledLoaderBackground>
         <StyledLoaderWrapper>
             <StyledLoaderItem />
@@ -15,3 +15,4 @@ export const Loader = () =>
             <StyledLoaderItem />
         </StyledLoaderWrapper>
     </StyledLoaderBackground>
+)

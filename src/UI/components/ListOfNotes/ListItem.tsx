@@ -1,11 +1,10 @@
-// @flow
 import * as React from 'react'
 import Icon from '../Icon/Icon'
 import {Note} from '../../../interfaces/Note'
 
-type Props = {
-    note: Note,
-    onClick: (noteId: string) => void
+interface Props {
+    note: Note;
+    onClick: (noteId: string) => void;
 }
 
 class ListItem extends React.Component<Props> {

@@ -1,11 +1,11 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import { Note } from '../../../interfaces/Note'
 import ListItem from './ListItem'
+import {StyledList} from './ListStyles'
 
 interface Props {
     onClick: (noteId: string) => void;
-    notes: Array<Note>
+    notes: Array<Note>;
 }
 
 class List extends React.Component<Props> {
@@ -22,11 +22,10 @@ class List extends React.Component<Props> {
                 onClick={onClick}
             />
         )
-
         return (
-            <ul>
+            <StyledList>
                 {listItems}
-            </ul>
+            </StyledList>
         )
     }
 }

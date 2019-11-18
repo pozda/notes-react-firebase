@@ -5,8 +5,9 @@ import {Note} from './interfaces/Note'
 import {Loader} from './UI/components/Loader/Loader'
 import Button from './UI/components/Button/Button'
 import Icon from './UI/components/Icon/Icon'
-import AddNoteEditor from "./UI/components/NoteEditor/AddNoteEditor";
-import EditNoteEditor from "./UI/components/NoteEditor/EditNoteEditor";
+import AddNoteEditor from './UI/components/NoteEditor/AddNoteEditor'
+import EditNoteEditor from './UI/components/NoteEditor/EditNoteEditor'
+import styles from './UI/styles/values'
 
 interface State {
     notes: Array<Note>
@@ -58,12 +59,15 @@ class App extends React.Component<{}, State> {
     render() {
         return (
             <div className="App">
-                <Button onClick={this.createNewNote} text={'Create'} icon={Icon.res.ADD_NOTE}/>
+                <Button
+                    onClick={this.createNewNote}
+                    text={'Create'}
+                    icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
+                />
                 {
                     // this.state.loading ?
                     //     <Loader /> :
                     //     <List onClick={this.selectSingleNote} notes={this.state.notes}/>
-                    console.log(this.state.notes)
                 }
                 {
                     this.state.isNewNote && !!this.state.selectedNote ?

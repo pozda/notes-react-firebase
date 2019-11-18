@@ -1,4 +1,5 @@
 import styled, {keyframes} from 'styled-components'
+import styles from '../../styles/values'
 
 const boxAnimation = keyframes`
   0% {opacity: 0.2;}
@@ -12,7 +13,7 @@ const StyledLoaderBackground = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.75);
+    background-color: ${styles.color.shade.DARK07};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@ const StyledLoaderBackground = styled.div`
 
 const StyledLoaderWrapper = styled.div`
     display: flex;
-    border: 2px solid white;
+    border: 2px solid ${styles.color.shade.WHITE};
     padding: 2px;
     margin: 1px;
     justify-content: space-between;
@@ -28,7 +29,7 @@ const StyledLoaderWrapper = styled.div`
 `
 
 const StyledLoaderItem = styled.div`
-    background: white;
+    background: ${styles.color.shade.WHITE};
     width: 10px;
     height: 10px;
     animation: 1000ms ${boxAnimation} infinite;
