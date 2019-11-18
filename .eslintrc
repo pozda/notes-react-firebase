@@ -1,0 +1,96 @@
+{    
+ "extends": [
+      "google",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "react": {
+        "version": "16.4.2",
+        "flowVersion": "0.77.0"
+      }
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "tsx": true,
+        "modules": true
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-console": [
+        "warn"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "quote-props": [
+        "error",
+        "as-needed"
+      ],
+      "eol-last": [
+        "warn",
+        "never"
+      ],
+      "arrow-body-style": [
+        "error",
+        "as-needed"
+      ],
+      "max-len": [
+        "warn",
+        {
+          "code": 120
+        }
+      ],
+      "object-curly-spacing": [
+        "warn",
+        "never"
+      ],
+      "no-invalid-this": [
+        "off"
+      ],
+      "indent": [
+        "error",
+        4
+      ],
+      "require-jsdoc": "off",
+      "react/display-name": "off",
+      "lines-between-class-members": [
+        "warn",
+        "always",
+        {
+          "exceptAfterSingleLine": true
+        }
+      ],
+      "flowtype/require-parameter-type": [
+        "error",
+        {
+          "excludeArrowFunctions": false
+        }
+      ],
+      "flowtype/no-types-missing-file-annotation": "off",
+      "flowtype/no-weak-types": [
+        "error",
+        {
+          "any": true,
+          "Object": false,
+          "Function": false
+        }
+      ]
+    }
+  }
+  
