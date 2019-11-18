@@ -2,9 +2,11 @@ import React, {ChangeEvent} from 'react'
 import {Note} from '../../interfaces/Note'
 import firebase from '../../utils/firebase'
 import NoteEditor from '../components/NoteEditor/NoteEditor'
+import {toast} from 'react-toastify'
 
 interface State {
     note: Note;
+    updateDisabled: boolean;
 }
 
 interface Props {
@@ -17,6 +19,20 @@ class EditNotePage extends React.Component<Props, State> {
             id: '',
             title: '',
             note: ''
+        },
+        updateDisabled: true
+    }
+
+    notify = (type: 'success' | 'warning' | 'info' | 'error', message: string) => {
+        switch (type) {
+        case 'success':
+            return toast.success(message)
+        case 'warning':
+            return toast.warn(message)
+        case 'info':
+            return toast.info(message)
+        case 'error':
+            return toast.error(message)
         }
     }
 
@@ -28,9 +44,12 @@ class EditNotePage extends React.Component<Props, State> {
         if (prevProps.match.params.id !== this.props.match.params.id) {
             this.loadNoteData()
         }
+        if ((prevState.note.title !== this.state.note.title) || (prevState.note.note !== this.state.note.note)) {
+            this.setState({updateDisabled: false})
+        }
     }
 
-    loadNoteData= () => {
+    loadNoteData = () => {
         const {match: {params}} = this.props
         const noteRef = firebase.firestore().collection('notes').doc(params.id)
         noteRef.get().then((doc) => {
@@ -63,13 +82,24 @@ class EditNotePage extends React.Component<Props, State> {
             }
         })
     }
-    updateNote = () => {}
+
+    updateNote = () => {
+        const noteRef = firebase.firestore().collection('notes').doc(this.props.match.params.id)
+        return noteRef.update({
+            title: this.state.note.title,
+            note: this.state.note.note
+        }).then(() => {
+            this.notify('success', 'Note updated successfuly!')
+        })
+            .catch((error: string) => {
+                this.notify('error', `Error updating document: ${error}`)
+            })
+    }
 
 
     render() {
         return (
             <>
-                <input type="text" defaultValue={this.state.note.title} onChange={this.onTitleChange}/>
                 <NoteEditor
                     note={this.state.note}
                     noteTitle={this.state.note.title}
@@ -77,7 +107,7 @@ class EditNotePage extends React.Component<Props, State> {
                     onContentChange={this.onChange}
                     onTitleChange={this.onTitleChange}
                 />
-                <button onClick={this.updateNote}>UPDATE</button>
+                <button disabled={this.state.updateDisabled} onClick={this.updateNote}>UPDATE</button>
             </>
         )
     }

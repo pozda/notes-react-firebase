@@ -74,6 +74,12 @@ class NoteEditor extends React.Component<Props, State> {
         console.log(this.state)
         return (
             <div>
+                <input
+                    type={'text'}
+                    placeholder={'Enter title'}
+                    value={this.props.noteTitle}
+                    onChange={this.props.onTitleChange}
+                />
                 <ReactQuill
                     theme={this.state.theme}
                     value={this.props.noteContent || ''}

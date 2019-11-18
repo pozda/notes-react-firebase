@@ -13,6 +13,8 @@ import routes from './routes'
 import {Link} from 'react-router-dom'
 import AddNotePage from './UI/pages/AddNotePage'
 import EditNotePage from './UI/pages/EditNotePage'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css' // third-party-library styling
 
 interface State {
     notes: Array<Note>;
@@ -42,15 +44,6 @@ class App extends React.Component<RouteComponentProps, State> {
             })
             this.setState({notes: [...notes], loading: false})
         })
-    }
-
-
-    saveNote = () => {
-
-    }
-
-    updateNote = () => {
-
     }
 
     selectSingleNote = (id: string): void => {
@@ -87,6 +80,7 @@ class App extends React.Component<RouteComponentProps, State> {
                         <Redirect to={routes.notes.path} />
                     </Switch>
                 </Layout>
+                <ToastContainer position={toast.POSITION.TOP_RIGHT} newestOnTop={true} />
             </>
         )
     }

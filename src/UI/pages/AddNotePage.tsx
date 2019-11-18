@@ -1,11 +1,14 @@
 import React, {ChangeEvent} from 'react'
 import firebase from '../../utils/firebase'
 import {Note} from '../../interfaces/Note'
-import {RouteComponentProps, withRouter} from 'react-router'
+import {RouteComponentProps} from 'react-router'
 import NoteEditor from '../../UI/components/NoteEditor/NoteEditor'
+import {toast} from 'react-toastify'
+
 
 interface State {
     note: Note;
+    saveDisabled: boolean;
 }
 
 class AddNotePage extends React.Component<RouteComponentProps, State> {
@@ -14,6 +17,26 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
             id: '',
             note: '',
             title: ''
+        },
+        saveDisabled: true
+    }
+
+    notify = (type: 'success' | 'warning' | 'info' | 'error', message: string) => {
+        switch (type) {
+        case 'success':
+            return toast.success(message)
+        case 'warning':
+            return toast.warn(message)
+        case 'info':
+            return toast.info(message)
+        case 'error':
+            return toast.error(message)
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<RouteComponentProps>, prevState: Readonly<State>, snapshot?: any): void {
+        if ((prevState.note.title !== this.state.note.title) || (prevState.note.note !== this.state.note.note)) {
+            this.setState({saveDisabled: false})
         }
     }
 
@@ -42,18 +65,18 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
             title: this.state.note.title,
             note: this.state.note.note
         })
-            .then((docRef: {id: string}) => {
+            .then((docRef: { id: string }) => {
+                this.notify('success', 'Note saved successfuly!')
                 this.props.history.push(`/note/edit/${docRef.id}`)
             })
-            .catch(function(error: {}) {
-                console.error('Error adding document: ', error)
+            .catch((error: string) => {
+                this.notify('error', `Error adding document: ${error}`)
             })
     }
 
     render() {
         return (
             <>
-                <input type="text" placeholder={'Enter title'} onChange={this.onTitleChange}/>
                 <NoteEditor
                     note={this.state.note}
                     noteTitle={this.state.note.title}
@@ -61,10 +84,10 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
                     onContentChange={this.onChange}
                     onTitleChange={this.onTitleChange}
                 />
-                <button onClick={this.onSave}>SAVE</button>
+                <button disabled={this.state.saveDisabled} onClick={this.onSave}>SAVE</button>
             </>
         )
     }
 }
 
-export default withRouter(AddNotePage)
+export default AddNotePage
