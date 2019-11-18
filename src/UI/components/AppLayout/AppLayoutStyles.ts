@@ -9,6 +9,10 @@ const StyledAppLayoutSectionsWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    overflow-y: auto;
+    @media (max-width: 763px) {
+        flex-direction: column;
+    }
 `
 
 const StyledAppLayoutTopBar = styled.div`
@@ -30,11 +34,30 @@ const StyledAppLayoutSidebar = styled.div`
     min-height: 320px;
     overflow-y: auto;
     width: 100%;
+    transition: ${styles.transition.PRIMARY};
+    @media (max-width: 763px) {
+        max-width: 100%;
+        min-height: 150px;
+        height: calc(40vh - 60px);
+        border-bottom: 3px solid ${styles.color.shade.DARK};
+    }
 `
 
 const StyledAppLayoutMain = styled.div`
-    width: calc(100vh - 380px);
+    width: calc(100% - 380px);
     min-width: 380px;
+    transition: ${styles.transition.PRIMARY};
+    @media (max-width: 763px) {
+        max-width: 100%;
+        min-width: 320px;
+        min-height: 280px;
+        height: calc(50vh);
+        width: 100%;
+        .ql-container {
+            max-height: calc(50vh - 85px);
+            overflow-y: auto;
+        }
+    }
 `
 
 const StyledAppLayoutLogo = styled.div`

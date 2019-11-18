@@ -2,6 +2,10 @@ import * as React from 'react'
 import ReactQuill from 'react-quill'
 import {Note} from '../../../interfaces/Note'
 import {ChangeEvent} from 'react'
+import {
+    StyledNoteEditorTitle,
+    StyledNoteEditorWrapper
+} from './NoteEditorStyles'
 
 interface Props {
     note?: Note;
@@ -51,21 +55,16 @@ class NoteEditor extends React.Component<Props, State> {
 
     render() {
         const formats = [
-            'header', 'font', 'size',
+            'header',
             'bold', 'italic', 'underline', 'strike', 'blockquote',
-            'list', 'bullet', 'indent',
-            'link', 'image', 'video'
+            'list', 'bullet', 'indent'
         ]
 
         const modules = {
             toolbar: [
-                [{ header: '1'}, {header: '2'}, { font: [] }],
-                [{size: []}],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{ header: '1'}, {header: '2'}, 'bold', 'italic', 'underline', 'strike', 'blockquote'],
                 [{list: 'ordered'}, {list: 'bullet'},
-                    {indent: '-1'}, {indent: '+1'}],
-                ['link', 'image', 'video'],
-                ['clean']
+                    {indent: '-1'}, {indent: '+1'}, 'clean']
             ],
             clipboard: {
                 matchVisual: false
@@ -73,8 +72,8 @@ class NoteEditor extends React.Component<Props, State> {
         }
         console.log(this.state)
         return (
-            <div>
-                <input
+            <StyledNoteEditorWrapper>
+                <StyledNoteEditorTitle
                     type={'text'}
                     placeholder={'Enter title'}
                     value={this.props.noteTitle}
@@ -89,7 +88,7 @@ class NoteEditor extends React.Component<Props, State> {
                     bounds={'.app'}
                     placeholder={'Enter your note'}
                 />
-            </div>
+            </StyledNoteEditorWrapper>
         )
     }
 }

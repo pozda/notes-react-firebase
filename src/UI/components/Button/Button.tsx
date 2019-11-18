@@ -6,6 +6,7 @@ interface Props {
     onClick?: () => void;
     icon?: React.ReactNode;
     text?: string;
+    disabled?: boolean;
 }
 
 class Button extends React.Component<Props> {
@@ -14,11 +15,12 @@ class Button extends React.Component<Props> {
             fab,
             onClick,
             icon,
-            text
+            text,
+            disabled
         } = this.props
 
         return (
-            <StyledButton fab={fab ? fab : false} onClick={onClick}>
+            <StyledButton fab={fab ? fab : false} onClick={onClick} disabled={disabled}>
                 {!!icon && icon}
                 {!!text && text}
             </StyledButton>

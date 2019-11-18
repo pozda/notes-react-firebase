@@ -18,7 +18,7 @@ class ListItem extends React.Component<Props> {
         return (
             <StyledListItem onClick={() => onClick(note.id)}>
                 <StyledListItemTitle> { note.title } </StyledListItemTitle>
-                <Icon d={Icon.res.CHEVRON_RIGHT} />
+                <Icon d={Icon.res.CHEVRON_RIGHT} width={16} />
             </StyledListItem>
         )
     }

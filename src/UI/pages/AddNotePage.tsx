@@ -4,6 +4,8 @@ import {Note} from '../../interfaces/Note'
 import {RouteComponentProps} from 'react-router'
 import NoteEditor from '../../UI/components/NoteEditor/NoteEditor'
 import {toast} from 'react-toastify'
+import Button from '../components/Button/Button'
+import Icon from '../components/Icon/Icon'
 
 
 interface State {
@@ -23,14 +25,14 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
 
     notify = (type: 'success' | 'warning' | 'info' | 'error', message: string) => {
         switch (type) {
-        case 'success':
-            return toast.success(message)
-        case 'warning':
-            return toast.warn(message)
-        case 'info':
-            return toast.info(message)
-        case 'error':
-            return toast.error(message)
+            case 'success':
+                return toast.success(message)
+            case 'warning':
+                return toast.warn(message)
+            case 'info':
+                return toast.info(message)
+            case 'error':
+                return toast.error(message)
         }
     }
 
@@ -84,7 +86,14 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
                     onContentChange={this.onChange}
                     onTitleChange={this.onTitleChange}
                 />
-                <button disabled={this.state.saveDisabled} onClick={this.onSave}>SAVE</button>
+                <Button
+                    fab={true}
+                    disabled={this.state.saveDisabled}
+                    onClick={this.onSave}
+                    icon={<Icon d={Icon.res.SAVE} />}
+                >
+                    SAVE
+                </Button>
             </>
         )
     }

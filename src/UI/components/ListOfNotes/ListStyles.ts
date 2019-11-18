@@ -10,7 +10,7 @@ const StyledList = styled.ul`
 const StyledListItem = styled.li`
     display: flex;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 8px 4px 8px 16px;
     border: 1px solid ${styles.color.shade.DARK01};
     box-shadow: ${styles.shadow.card.PRIMARY};
     transition: ${styles.transition.PRIMARY};
