@@ -1,0 +1,7 @@
+language: node_js
+node_js: "10.6.0"
+
+script: npm install
+
+notifications:
+  slack: pozda:ENPsYelvlSr2JhxClx28EhdJ#autobot
