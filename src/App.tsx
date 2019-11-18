@@ -8,12 +8,14 @@ import Icon from './UI/components/Icon/Icon'
 import AddNoteEditor from './UI/components/NoteEditor/AddNoteEditor'
 import EditNoteEditor from './UI/components/NoteEditor/EditNoteEditor'
 import styles from './UI/styles/values'
+import Layout from './UI/Layout/Layout'
+import { StyledLayoutSectionsWrapper } from './UI/Layout/LayoutStyles'
 
 interface State {
-    notes: Array<Note>
-    loading: boolean,
-    isNewNote: boolean,
-    selectedNote: Note | null
+    notes: Array<Note>;
+    loading: boolean;
+    isNewNote: boolean;
+    selectedNote: Note | null;
 }
 
 class App extends React.Component<{}, State> {
@@ -23,18 +25,15 @@ class App extends React.Component<{}, State> {
         isNewNote: false,
         selectedNote: null
     }
-    // componentDidMount() {
-    //     const notesRef = firebase.firestore().collection('notes');
-    //     notesRef.get('value', (snapshot) => {
-    //         this.setState({notes: snapshot.val(), loading: false})
-    //     })
-    // }
 
     componentDidMount() {
-        const notesRef = firebase.firestore().collection('notes');
-        notesRef.get().then((querySnapshot) => {
-            // @ts-ignore
-            this.setState({notes: querySnapshot, loading: false})
+        const notesRef = firebase.firestore().collection('notes')
+        notesRef.get().then((querySnapshot: any) => {
+            console.log(typeof querySnapshot)
+            querySnapshot.forEach((doc: any) => {
+                console.log(typeof doc)
+                this.setState({notes: [...this.state.notes, doc]})
+            })
         })
     }
 
@@ -58,25 +57,44 @@ class App extends React.Component<{}, State> {
 
     render() {
         return (
-            <div className="App">
-                <Button
-                    onClick={this.createNewNote}
-                    text={'Create'}
-                    icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
-                />
-                {
-                    // this.state.loading ?
-                    //     <Loader /> :
-                    //     <List onClick={this.selectSingleNote} notes={this.state.notes}/>
-                }
-                {
-                    this.state.isNewNote && !!this.state.selectedNote ?
-                        <AddNoteEditor /> :
-                        <EditNoteEditor editNote={this.editNote} note={this.state.selectedNote}  />
-                }
-            </div>
+
+            <Layout>
+                <Layout.TopBar>
+                    <Layout.Logo>
+                        <Icon d={Icon.res.APP_LOGO} width={48} height={48} color={styles.color.brand.PRIMARY} />
+                        Notes
+                    </Layout.Logo>
+                    <Button
+                        onClick={this.createNewNote}
+                        text={'Create'}
+                        icon={ <Icon d={Icon.res.ADD_NOTE} width={16} height={16} color={styles.color.brand.PRIMARY} /> }
+                    />
+                </Layout.TopBar>
+                <Layout.SectionsWrapper>
+                    <Layout.Sidebar>
+                        {
+                            this.state.loading ?
+                                <Loader /> :
+                                <List
+                                    onClick={this.selectSingleNote}
+                                    notes={this.state.notes}
+                                />
+                        }
+                    </Layout.Sidebar>
+                    <Layout.Main>
+                        {
+                            true ?
+                                <AddNoteEditor /> :
+                                <EditNoteEditor
+                                    updateNote={this.editNote}
+                                    note={this.state.selectedNote}
+                                />
+                        }
+                    </Layout.Main>
+                </Layout.SectionsWrapper>
+            </Layout>
         )
     }
 }
 
-export default App;
+export default App

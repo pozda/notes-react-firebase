@@ -3,12 +3,12 @@ import {Editor, EditorState, RichUtils} from 'draft-js'
 import {Note} from '../../../interfaces/Note'
 
 interface State {
-    loading: boolean,
-    note: Note | null
+    loading: boolean;
+    note: Note | null;
 }
 interface Props {
-    editNote: (noteId: string) => void,
-    note: Note | null
+    updateNote: (noteId: string) => void;
+    note: Note | null;
 }
 
 class EditNoteEditor extends React.Component<Props, State> {
@@ -65,7 +65,7 @@ class EditNoteEditor extends React.Component<Props, State> {
 
 
     render() {
-        const {editNote, note} = this.props
+        const {updateNote, note} = this.props
 
         return (
             <>
@@ -76,7 +76,7 @@ class EditNoteEditor extends React.Component<Props, State> {
                     // @ts-ignore
                     handleKeyCommand={this.handleKeyCommand}
                 />
-                <button onClick={note !== null ? () => editNote(note.id): undefined}>UPDATE</button>
+                <button onClick={note !== null ? () => updateNote(note.id): undefined}>UPDATE</button>
             </>
         )
     }
