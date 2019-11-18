@@ -3,6 +3,8 @@ import {Note} from '../../interfaces/Note'
 import firebase from '../../utils/firebase'
 import NoteEditor from '../components/NoteEditor/NoteEditor'
 import {toast} from 'react-toastify'
+import Icon from "../components/Icon/Icon";
+import Button from "../components/Button/Button";
 
 interface State {
     note: Note;
@@ -107,7 +109,13 @@ class EditNotePage extends React.Component<Props, State> {
                     onContentChange={this.onChange}
                     onTitleChange={this.onTitleChange}
                 />
-                <button disabled={this.state.updateDisabled} onClick={this.updateNote}>UPDATE</button>
+                <Button
+                    fab={true}
+                    disabled={this.state.updateDisabled}
+                    onClick={this.updateNote}
+                    icon={<Icon d={Icon.res.SAVE} />}
+                >
+                </Button>
             </>
         )
     }

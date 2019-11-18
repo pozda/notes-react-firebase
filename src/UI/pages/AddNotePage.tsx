@@ -92,7 +92,6 @@ class AddNotePage extends React.Component<RouteComponentProps, State> {
                     onClick={this.onSave}
                     icon={<Icon d={Icon.res.SAVE} />}
                 >
-                    SAVE
                 </Button>
             </>
         )
