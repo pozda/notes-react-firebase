@@ -1,6 +1,8 @@
 # notes app with react and firebase
 Typescript React App with styled components and Firebase
 
+See it [Live](https://notes-typescript-firestore.herokuapp.com/)
+
 ## Available Scripts
 
 In the project directory, you can run:
